@@ -48,11 +48,16 @@ dataset.onload = function(){
   dataStr = JSON.stringify(dataObj.data);
 
   
-  let max = d3.max(list);
-  let min = d3.min(list);
+  let max = d3.max(list, (d) => d[1]);
+  let min = d3.min(list, (d) => d[1]);
   
+  document.getElementById('log').innerText = min + " through " + max;
   
   // d3 operations need to happen after async API request has loaded:
+  const scale = d3.scaleLinear();
+  scale.domain([min, max]);
+  scale.range([10, 500]);
+  
   d3.select('#chart')
   .attr('width', 700)
   .selectAll('rect') 
