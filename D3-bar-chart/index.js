@@ -1,6 +1,6 @@
 // !! IMPORTANT README:
 
-// You may add additional external JS and CSS as needed to complete the project, however the current external resource MUST remain in place for the tests to work. BABEL must also be left in place.
+// You may add additional external JS and CSS as needed to complete the project, however the current external resource MUST remain in place for the tests to work. BABEL must also be left in place. 
 
 /***********
 INSTRUCTIONS:
@@ -24,35 +24,48 @@ INSTRUCTIONS:
 
 // PLEASE NOTE: Adding global style rules using the * selector, or by adding rules to body {..} or html {..}, or to all elements within body or html, i.e. h1 {..}, has the potential to pollute the test suite's CSS. Try adding: * { color: red }, for a quick example!
 
-// Once you have read the above messages, you can delete all comments.
-import * as d3 from 'https://cdn.skypack.dev/d3@7.6.1';
+// Once you have read the above messages, you can delete all comments. 
+import * as d3 from "https://cdn.skypack.dev/d3@7.6.1";
 
 // let dataset = fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json')
 //   .then(response => response.json())
 //   .then(data => JSON.parse(data));
 
-d3.select('main').append('svg').attr('text', 'hello world');
+d3.select('main')
+  .append('svg')
+  .attr('text','hello world')
 
 let dataStr = '';
 let dataObj = {};
 let list = [];
 
 let dataset = new XMLHttpRequest();
-dataset.open(
-  'GET',
-  'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json',
-  true
-);
+dataset.open('GET', 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json', true);
 dataset.send();
-dataset.onload = function () {
+dataset.onload = function(){
   dataObj = JSON.parse(dataset.responseText);
   list = dataObj.data;
   dataStr = JSON.stringify(dataObj.data);
 
-  d3.select('#list')
-    .selectAll('li') // d3 operations need to happen after async API request has loaded
-    .data(list)
-    .enter()
-    .append('li')
-    .text((item) => item[1]);
-}; // data pulls thru from API
+  
+  let max = d3.max(list);
+  let min = d3.min(list);
+  
+  
+  // d3 operations need to happen after async API request has loaded:
+  d3.select('#chart')
+  .attr('width', 700)
+  .selectAll('rect') 
+  .data(list)
+  .enter()
+  .append('rect')
+  .attr('width', '10px')
+  .attr('height', '20px')
+  .attr('x', (d, i) => i * 25)
+  .style('background-color', 'red')
+  .text((item)=> item[1])
+  
+} // data pulls thru from API
+
+  
+
