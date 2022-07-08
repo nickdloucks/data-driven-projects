@@ -35,10 +35,12 @@ d3.select('main')
   .append('svg')
   .attr('text','hello world')
 
+// Global scope vars for saving data pulled from the API
 let dataStr = '';
 let dataObj = {};
 let list = [];
 
+// Send a GET Http request to the API, then save the pertinent data
 let dataset = new XMLHttpRequest();
 dataset.open('GET', 'https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json', true);
 dataset.send();
@@ -48,7 +50,7 @@ dataset.onload = function(){
   dataStr = JSON.stringify(dataObj.data);
 
   
-  let max = d3.max(list, (d) => d[1]);
+  let max = d3.max(list, (d) => d[1]); // save min and max of dataset for scaling the visualization 
   let min = d3.min(list, (d) => d[1]);
   
   document.getElementById('log').innerText = min + " through " + max;
