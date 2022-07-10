@@ -47,9 +47,20 @@ dataset.onload = function(){
   list = dataObj.data;
   dataStr = JSON.stringify(dataObj.data);
 
+  const w = 500;
+  const h = 500;
+  const padding = 60;
   
   let max = d3.max(list, (d) => d[1]);
   let min = d3.min(list, (d) => d[1]);
+
+  const xScale = d3.scaleLinear()
+      .domain([0, max])
+      .range([padding, w - padding])
+  
+  const yScale = d3.scaleLinear()
+    .domain([0, max])
+    .range([h - padding, padding])
   
   document.getElementById('log').innerText = min + " through " + max;
   
